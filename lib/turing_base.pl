@@ -1,10 +1,5 @@
 % Turing Machine
-% Infinite to the Right
-
-% Predicates
-% rule/5
-% parsed from dcg. has all the transition rules indexed
-
+% Helpful predicates
 
 % tape_movimentation/5
 % Transfers elements from the 2 sides of the tape,
@@ -33,3 +28,23 @@ show_machine_state(N, StateP, StateQ, In, Out, Head_Mov, TLQ, TRQ) :-
     format("Head read/write:~24+~w~8+ ---> ~w~n", [In, Out]),
     format("Head movement:~24+~w~nTape:~n", Head_Mov),
     show_left_tape(TLQ), show_right_tape(TRQ).
+
+
+% maplist/6
+% Used for multi-tape machine, to apply the predicate
+% tape_movimentation/5 to multiple tapes
+
+maplist(_,[],[],[],[],[]).
+maplist(Predicate, [A|As], [B|Bs], [C|Cs], [D|Ds], [E|Es]) :-
+    call(Predicate, A, B, C, D, E),
+    maplist(Predicate, As, Bs, Cs, Ds, Es).
+
+% tapes_movimentations/5
+% Same as tape_movimentation/5, applied to multiple tapes
+tapes_movimentations(Movs, TapesL0, TapesR0, TapesL1, TapesR1) :-
+    maplist(tape_movimentation, TapesL0, TapesR0, TapesL1, TapesR1).
+
+% tapes_heads/3
+% Gets the input/writes the output in a multi-tape setting
+tapes_heads(Tapes, Heads, Rests) :-
+    maplist(nth0(0), Tapes, Heads, Rests).
