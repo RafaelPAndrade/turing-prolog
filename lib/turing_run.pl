@@ -1,4 +1,4 @@
-:- ensure_loaded('turing_base.pl').
+:tt- ensure_loaded('turing_base.pl').
 
 
 % runnning the emulation full speed
@@ -26,7 +26,7 @@ run(qacc, TapeLF, TapeRF, TapeLF, TapeRF):-!, format('ACCEPTED~n').
 run(qrej, TapeLF, TapeRF, TapeLF, TapeRF):-!, format('REJECTED~n').
 run(State0, TapeL0, [In | TapeR0], TapeLF, TapeRF) :-
     rule(State0, In, State1, Out, Mov),
-    tape_movimentation(Mov, TapeL0, [Out | TapeR0], TapeL1, TapeR1),!,
+    tape_movimentation(Mov, TapeL0, [Out | TapeR0], TapeL1, TapeR1),
     run(State1, TapeL1, TapeR1, TapeLF, TapeRF).
 
 % add the null element if already ended right of the tape

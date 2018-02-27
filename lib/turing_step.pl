@@ -15,18 +15,18 @@ step(T, TapeLeftFinal, TapeRightFinal) :-
 % Show the full state of the machine, one configuration at a time
 step(qacc, TapeLeftN, TapeRightN, N, TapeLeftN, TapeRightN) :-
     format("End of computation, at step ~d~n", [N]),
-    show_machine_state(N, qacc, qacc, TapeLeftN, TapeRightN), !.
+    show_machine_state(N, qacc, qacc, TapeLeftN, TapeRightN).
 
 step(qrej, TapeLeftN, TapeRightN, N, TapeLeftN, TapeRightN) :-
     format("End of computation, at step ~d~n", [N]),
-    show_machine_state(N, qrej, qrej, TapeLeftN, TapeRightN), !.
+    show_machine_state(N, qrej, qrej, TapeLeftN, TapeRightN).
 
 
 step(StateN, TapeLN, [In | TapeRN], N, TapeLF, TapeRF) :-
     ( rule(StateN, In, StateM, Out, Mov)
       ; format("ABORTED: No rule found for state '~w', input '~w'~n",
         [StateN, In]), !, fail
-    ), !,
+    ),
     show_machine_state(N, StateN, StateM, In, Out, Mov, TapeLN, [Out | TapeRN]),
     tape_movimentation(Mov, TapeLN, [Out | TapeRN], TapeLM, TapeRM),
     M is N+1, get_char(_),
