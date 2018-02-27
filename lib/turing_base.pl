@@ -8,6 +8,12 @@ tape_movimentation(l, [H | TapeL1], TapeR0, TapeL1, [H | TapeR0]).
 tape_movimentation(r, TapeL0, [H | TapeR1], [H | TapeL0], TapeR1).
 tape_movimentation(s, TapeL0, TapeR0, TapeL0, TapeR0).
 
+% tape_head/3
+% Gets the head and tail of the given tape. Previously done in run and
+% step directly, now a new predicate because tapes_heads/3.
+tape_head([],    null, []).
+tape_head([H|T], H,    T).
+
 
 % showing things
 % Show tapes
@@ -42,9 +48,9 @@ maplist(Predicate, [A|As], [B|Bs], [C|Cs], [D|Ds], [E|Es]) :-
 % tapes_movimentations/5
 % Same as tape_movimentation/5, applied to multiple tapes
 tapes_movimentations(Movs, TapesL0, TapesR0, TapesL1, TapesR1) :-
-    maplist(tape_movimentation, TapesL0, TapesR0, TapesL1, TapesR1).
+    maplist(tape_movimentation, Movs, TapesL0, TapesR0, TapesL1, TapesR1).
 
 % tapes_heads/3
 % Gets the input/writes the output in a multi-tape setting
 tapes_heads(Tapes, Heads, Rests) :-
-    maplist(nth0(0), Tapes, Heads, Rests).
+    maplist(tape_head, Tapes, Heads, Rests).
