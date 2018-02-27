@@ -11,6 +11,7 @@
 % according to the asked movimentation
 tape_movimentation(l, [H | TapeL1], TapeR0, TapeL1, [H | TapeR0]).
 tape_movimentation(r, TapeL0, [H | TapeR1], [H | TapeL0], TapeR1).
+tape_movimentation(s, TapeL0, TapeR0, TapeL0, TapeR0).
 
 
 % showing things
