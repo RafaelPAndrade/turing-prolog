@@ -78,11 +78,20 @@ tapes_heads(Tapes, Heads, Rests) :-
 % right tapes (init_tapes/1); left tapes are blank by default
 
 init_tapes(TapesL, TapesR) :-
-    init_tapes(TapeR),
-    length(TapeR, N),
-    make_empty_tapes(N, TapeL).
+    init_tapes(TapesR),
+    length(TapesR, N),
+    make_empty_tapes_(N, TapesL).
 
-make_empty_tapes(1,[[]]):-!.
-make_empty_tapes(N, [[] | R]) :-
+make_empty_tapes_(1,[[]]):-!.
+make_empty_tapes_(N, [[] | R]) :-
     N > 1, M is N-1,
     make_empty_tapes(M, R).
+
+
+% clean_db/0
+% Previously on load.pl, but should be here
+% Clears the initial configuration info loaded by the user
+clean_db :-
+    retractall(rule(_,_,_,_,_)),
+    retractall(init_tapes(_,_)),
+    retractall(init_tapes(_)).

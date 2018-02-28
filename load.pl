@@ -7,13 +7,6 @@
      'lib/turing_step.pl'
    ].
 
-
-clean_db :-
-        retractall(rule(_,_,_,_,_)),
-        retractall(tape(_)).
-
-
-
 go :- go(user_input, user_output, user_error).
 go(Input, Output, _) :-
     format(Output, "Starting.~n", []),

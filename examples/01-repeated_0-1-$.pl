@@ -2,9 +2,9 @@
  * Rafael P Andrade
  */
 
-:- dynamic rule/5, tape/1.
+:- dynamic rule/5, init_tapes/1.
 
-tape([[0,0,1,0,1,$,0,0,1,0,1,$,0,0,1,0,1]]).
+init_tapes([[0,0,1,0,1,$,0,0,1,0,1,$,0,0,1,0,1]]).
 
 rule(qin, [0], q0, [x], [r]).         % Verify if all words have 0
 rule(qin, [1], q1, [x], [r]).         % Verify if all words have 0

@@ -7,7 +7,7 @@ run :-
 
 run(TLI, TRI) :-
     run(TLI, TRI, TLO, TRO),
-    show_tapes(LF, RF).
+    show_tapes(TLO, TRO).
 
 run(TLI, TRI, TLO, TRO) :-
     run(qin, TLI, TRI, TLO, TRO).

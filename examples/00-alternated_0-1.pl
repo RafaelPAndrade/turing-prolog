@@ -2,9 +2,9 @@
  * Rafael P Andrade
  */
 
-:- dynamic rule/5, tape/1.
+:- dynamic rule/5, init_tapes/1.
 
-tape([[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]]).
+init_tapes([[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]]).
 
 rule(qin, [0], q0, [0], [r]).         % Got a 0
 rule(qin, [1], q1, [1], [r]).         % Got a 1
