@@ -2,14 +2,14 @@
 
 % stepping slowly thru the execution
 step :-
-    tape(T), step(T).
+    init_tapes(TLI, TRI), step(TLI, TRI).
 
-step(T) :-
-    step(T, _, _).
+step(TLI, TRI) :-
+    step(TLI, TRI, _, _).
 
-step(T, TapeLeftFinal, TapeRightFinal) :-
-    show_machine_state(0, '-', qin, [], T), get_char(_),
-    step(qin, [], T, 1, TapeLeftFinal, TapeRightFinal).
+step(TLI, TRI, TapesLeftFinal, TapesRightFinal) :-
+    show_machine_state(0, '-', qin, TLI, TRI), get_char(_),
+    step(qin, TLI, TRI, 1, TapesLeftFinal, TapesRightFinal).
 
 % step/6
 % Show the full state of the machine, one configuration at a time

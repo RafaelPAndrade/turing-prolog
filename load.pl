@@ -1,6 +1,6 @@
 % Menu to make using this emulator more pleasant
 
-:- dynamic rule/5, tape/1.
+:- dynamic rule/5, init_tapes/2, init_tapes/1.
 :- [ 'lib/utils.pl',
      'lib/turing_base.pl',
      'lib/turing_run.pl',

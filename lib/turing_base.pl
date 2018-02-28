@@ -1,6 +1,8 @@
 % Turing Machine
 % Helpful predicates
 
+:- dynamic init_tapes/2, init_tapes/1.
+
 % tape_movimentation/5
 % Transfers elements from the 2 sides of the tape,
 % according to the asked movimentation
@@ -42,10 +44,10 @@ show_right_tape(TapeRight) :-
 show_machine_state(N, StateP, StateQ, TLQ, TRQ) :-
     show_machine_state(N, StateP, StateQ, '-', '-', '-', TLQ, TRQ).
 
-show_machine_state(N, StateP, StateQ, In, Out, Head_Mov, TLQ, TRQ) :-
+show_machine_state(N, StateP, StateQ, Ins, Outs, Head_Mov, TLQ, TRQ) :-
     format("Transition Number:~24+~d~n", [N]),
     format("State transition:~24+~w~8+ ---> ~w~n", [StateP, StateQ]),
-    format("Head read/write:~24+~w~8+ ---> ~w~n", [In, Out]),
+    format("Head read/write:~24+~w~8+ ---> ~w~n", [Ins, Outs]),
     format("Head movement:~24+~w~n", Head_Mov),
     show_tapes(TLQ, TRQ).
 
@@ -53,7 +55,6 @@ show_machine_state(N, StateP, StateQ, In, Out, Head_Mov, TLQ, TRQ) :-
 % maplist/6
 % Used for multi-tape machine, to apply the predicate
 % tape_movimentation/5 to multiple tapes
-
 maplist(_,[],[],[],[],[]).
 maplist(Predicate, [A|As], [B|Bs], [C|Cs], [D|Ds], [E|Es]) :-
     call(Predicate, A, B, C, D, E),
@@ -68,3 +69,20 @@ tapes_movimentations(Movs, TapesL0, TapesR0, TapesL1, TapesR1) :-
 % Gets the input/writes the output in a multi-tape setting
 tapes_heads(Tapes, Heads, Rests) :-
     maplist(tape_head, Tapes, Heads, Rests).
+
+
+% init_tapes/2
+% Provides the initial tape configuration, Normally loaded from user
+% provided file.
+% This predicate adapts the input, if the user provided only the
+% right tapes (init_tapes/1); left tapes are blank by default
+
+init_tapes(TapesL, TapesR) :-
+    init_tapes(TapeR),
+    length(TapeR, N),
+    make_empty_tapes(N, TapeL).
+
+make_empty_tapes(1,[[]]):-!.
+make_empty_tapes(N, [[] | R]) :-
+    N > 1, M is N-1,
+    make_empty_tapes(M, R).

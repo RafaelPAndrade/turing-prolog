@@ -3,14 +3,14 @@
 
 % runnning the emulation full speed
 run :-
-    tape(T), run(T).
+    init_tapes(TLI, TRI), run(TLI, TRI).
 
-run(T) :-
-    run(T, LF, RF),
+run(TLI, TRI) :-
+    run(TLI, TRI, TLO, TRO),
     show_tapes(LF, RF).
 
-run(T, LF, RF) :-
-    run(qin, [[]], T, LF, RF).
+run(TLI, TRI, TLO, TRO) :-
+    run(qin, TLI, TRI, TLO, TRO).
 
 
 % run/5
