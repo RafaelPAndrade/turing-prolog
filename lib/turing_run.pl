@@ -7,10 +7,10 @@ run :-
 
 run(T) :-
     run(T, LF, RF),
-    show_left_tape(LF), show_right_tape(RF).
+    show_tapes(LF, RF).
 
 run(T, LF, RF) :-
-    run(qin, [], T, LF, RF).
+    run(qin, [[]], T, LF, RF).
 
 
 % run/5
