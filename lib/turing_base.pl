@@ -82,7 +82,8 @@ tapes_initial_state(TapesL, TapesR) :-
     make_empty_tapes_(N, TapesL).
 
 tapes_initial_state(TapesL, TapesR) :-
-    init_tapes(TapesL, TapesR).
+    init_tapes(TapesL0, TapesR),
+    maplist(reverse, TapesL0, TapesL).
 
 make_empty_tapes_(1,[[]]):-!.
 make_empty_tapes_(N, [[] | R]) :-
