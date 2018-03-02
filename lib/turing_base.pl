@@ -1,7 +1,7 @@
 % Turing Machine
 % Helpful predicates
 
-:- dynamic rule/5, init_tapes/1. init_tapes/2.
+:- dynamic rule/5, init_tapes/1, init_tapes/2.
 
 % tape_movimentation/5
 % Transfers elements from the 2 sides of the tape,
@@ -88,6 +88,33 @@ make_empty_tapes_(1,[[]]):-!.
 make_empty_tapes_(N, [[] | R]) :-
     N > 1, M is N-1,
     make_empty_tapes_(M, R).
+
+
+% verify_tapes/2
+% Verifies if the set of the left parts of the tapes and the right parts
+% match in number, and if everything is a proper list, etc.
+verify_tapes(TapesL, TapesR) :-
+    ( is_list(TapesR)
+    ; format("ERROR: The set of the right parts of the tapes is not a list~n"),
+      !, fail),
+    ( is_list(TapesL)
+    ; format("ERROR: The set of the left parts of the tapes is not a list~n"),
+      !, fail),
+    ( length(TapesR, N), length(TapesL, N)
+    ; format("ERROR: The two sets of partial tapes don't have equal lengths~n"),
+      !, fail),
+    maplist(verify_tape, TapesR), maplist(verify_tape, TapesL).
+
+% verify_tape/1
+% Just verifies that the argument is a list with no variables, and prints a
+% error message otherwise. Created to use with maplist.
+verify_tape(Tape) :-
+    ( is_list(Tape)
+    ; format("ERROR: The given tape is not a list: ~w~n", [Tape]),
+      !, fail),
+    ( maplist(nonvar, Tape)
+    ; format("ERROR: The given tape has a variable: ~w~n", [Tape]),
+      !, fail).
 
 
 % clean_db/0

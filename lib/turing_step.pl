@@ -2,7 +2,7 @@
 
 % stepping slowly thru the execution
 step :-
-    tapes_initial_state(TLI, TRI), step(TLI, TRI).
+    tapes_initial_state(TLI, TRI), verify_tapes(TLI,TRI), step(TLI, TRI).
 
 step(TLI, TRI) :-
     step(TLI, TRI, _, _).
