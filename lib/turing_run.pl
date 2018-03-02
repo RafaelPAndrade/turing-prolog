@@ -1,35 +1,32 @@
-:tt- ensure_loaded('turing_base.pl').
+:- ensure_loaded('turing_base.pl').
 
 
 % runnning the emulation full speed
 run :-
-    tape(T), run(T).
+    tapes_initial_state(TLI, TRI), run(TLI, TRI).
 
-run(T) :-
-    run(T, LF, RF),
-    show_left_tape(LF), show_right_tape(RF).
+run(TLI, TRI) :-
+    run(TLI, TRI, TLO, TRO),
+    show_tapes(TLO, TRO).
 
-run(T, LF, RF) :-
-    run(qin, [], T, LF, RF).
+run(TLI, TRI, TLO, TRO) :-
+    run(qin, TLI, TRI, TLO, TRO).
 
 
 % run/5
 % run(State0,TapeL0,TapeR0,TapeLFinal,TapeRFinal)
 % We use left to the head and right to the head, because
-% we have no indexes in prolog. So, in the beginning TapeL0 = [].
+% we have no indexes in prolog.
 % Current pos is first element of the right tape
 % We stop, by default, on qacc or qrej, ugly abort on undefined.
 
 % run/5
 % the predicate that does the iteration of states, quickly
-run(qacc, TapeLF, TapeRF, TapeLF, TapeRF):-!, format('ACCEPTED~n').
-run(qrej, TapeLF, TapeRF, TapeLF, TapeRF):-!, format('REJECTED~n').
-run(State0, TapeL0, [In | TapeR0], TapeLF, TapeRF) :-
-    rule(State0, In, State1, Out, Mov),
-    tape_movimentation(Mov, TapeL0, [Out | TapeR0], TapeL1, TapeR1),
-    run(State1, TapeL1, TapeR1, TapeLF, TapeRF).
-
-% add the null element if already ended right of the tape
-run(State0, TapeL0, [], TapeLF, TapeRF) :-
-    run(State0, TapeL0, [null], TapeLF, TapeRF).
-
+run(qacc, TapesLF, TapesRF, TapesLF, TapesRF):-!, format('ACCEPTED~n').
+run(qrej, TapesLF, TapesRF, TapesLF, TapesRF):-!, format('REJECTED~n').
+run(State0, TapesL0, TapesR0, TapesLF, TapesRF) :-
+    tapes_heads(TapesR0, Ins, TapesRest),
+    rule(State0, Ins, State1, Outs, Movs),
+    tapes_heads(TapesRMod, Outs, TapesRest),
+    tapes_movimentations(Movs, TapesL0, TapesRMod, TapesL1, TapesR1),
+    run(State1, TapesL1, TapesR1, TapesLF, TapesRF).

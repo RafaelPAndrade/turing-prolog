@@ -12,8 +12,8 @@ What?
 This is an attempt to emulate Turing Machines, using Prolog (only tested
 with swipl...), in a extensible, terminal-friendly way.
 
-Currently, it only emulates the most basic Turing Machine: single-tape,
-finite to the left, deterministic.
+Currently, it emulates a multi-tape, unidirectional and deterministic
+Turing Machine, with S-transitions.
 
 
 Why?
@@ -48,16 +48,17 @@ Running execution (no stops):
 
 ### To configure the machine ###
 
-The tape is specified using the predicate tape/1, the argument a list of
-symbols. Each symbol must be a valid, definite Prolog atom.
+The tapes are specified using the predicate init_tapes/1 or init_tapes/2, the
+argument is/are a list of lists of symbols (stand for a list of tapes with
+symbols). Each symbol must be a valid, definite Prolog atom.
 
 The rules are specified using the predicate rule/5, with the arguments being:
 
   - Name of the input state
-  - Input symbol
+  - Input symbols
   - Name of the ouput state
-  - Output symbol
-  - Tape movimentation (l/r).
+  - Output symbols
+  - Tape movimentation (l/r/s).
 
 
 Please consult the `examples/` for some sample programs.
