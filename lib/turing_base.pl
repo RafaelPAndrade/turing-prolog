@@ -23,25 +23,21 @@ show_tapes(TapesLeft, TapesRight) :-
     numlist(1, X, Ns),
     maplist(show_tape, TapesLeft, TapesRight, Ns).
 
-show_tape(TapeLeft, TapeRight) :-
-    format("Tape:~n"),
-    show_left_tape(TapeLeft), show_right_tape(TapeRight).
-
 show_tape(TapeLeft, TapeRight, N) :-
-    format("Tape ~d:~n", [N]),
-    show_left_tape(TapeLeft), show_right_tape(TapeRight).
+    join_tape_parts(TapeLeft, TapeRight, Tape),
+    format("Tape ~d: ~w~n", [N, Tape]).
 
-show_left_tape(TapeLeft) :-
-    reverse(TapeLeft, X),
-    format("Left tape: ~w~n", [X]).
-
-show_right_tape(TapeRight) :-
-    format("Right tape: ~w~n", [TapeRight]).
-
+% join_tape_parts/3
+% Used for joining the left and right parts of the tape, to show the user
+% a more normal view of the tape (instead of the left/right divide).
+join_tape_parts(TL0,[],T) :- join_tape_parts(TL0,[null], T).
+join_tape_parts(TL0,[H|TR],T) :-
+    reverse(TL0,TL),
+    append(TL,[[H]|TR],T).
 
 % Show state
 show_machine_state(N, StateP, StateQ, TLQ, TRQ) :-
-    show_machine_state(N, StateP, StateQ, '-', '-', '-', TLQ, TRQ).
+    show_machine_state(N, StateP, StateQ, ['-'], ['-'], ['-'], TLQ, TRQ).
 
 show_machine_state(N, StateP, StateQ, Ins, Outs, Head_Movs, TLQ, TRQ) :-
     format("Transition Number:~24+~d~n", [N]),
