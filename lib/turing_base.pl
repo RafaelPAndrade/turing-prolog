@@ -1,7 +1,7 @@
 % Turing Machine
 % Helpful predicates
 
-:- dynamic init_tapes/2, init_tapes/1.
+:- dynamic rule/5, init_tapes/1. init_tapes/2.
 
 % tape_movimentation/5
 % Transfers elements from the 2 sides of the tape,
@@ -15,7 +15,6 @@ tape_movimentation(s, TapeL0, TapeR0, TapeL0, TapeR0).
 % step directly, now a new predicate because tapes_heads/3.
 tape_head([],    null, []).
 tape_head([H|T], H,    T).
-
 
 % showing things
 % Show tapes
@@ -48,7 +47,7 @@ show_machine_state(N, StateP, StateQ, Ins, Outs, Head_Mov, TLQ, TRQ) :-
     format("Transition Number:~24+~d~n", [N]),
     format("State transition:~24+~w~8+ ---> ~w~n", [StateP, StateQ]),
     format("Head read/write:~24+~w~8+ ---> ~w~n", [Ins, Outs]),
-    format("Head movement:~24+~w~n", Head_Mov),
+    format("Head movement:~38+~w~n", Head_Mov),
     show_tapes(TLQ, TRQ).
 
 
@@ -71,21 +70,24 @@ tapes_heads(Tapes, Heads, Rests) :-
     maplist(tape_head, Tapes, Heads, Rests).
 
 
-% init_tapes/2
-% Provides the initial tape configuration, Normally loaded from user
-% provided file.
+% tapes_initial_state/2
+% Provides the initial tape configuration, loaded from the user provided
+% file, in predicates init_tapes/1 or init_tapes/2.
 % This predicate adapts the input, if the user provided only the
 % right tapes (init_tapes/1); left tapes are blank by default
 
-init_tapes(TapesL, TapesR) :-
+tapes_initial_state(TapesL, TapesR) :-
     init_tapes(TapesR),
     length(TapesR, N),
     make_empty_tapes_(N, TapesL).
 
+tapes_initial_state(TapesL, TapesR) :-
+    init_tapes(TapesL, TapesR).
+
 make_empty_tapes_(1,[[]]):-!.
 make_empty_tapes_(N, [[] | R]) :-
     N > 1, M is N-1,
-    make_empty_tapes(M, R).
+    make_empty_tapes_(M, R).
 
 
 % clean_db/0

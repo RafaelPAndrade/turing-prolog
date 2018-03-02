@@ -1,6 +1,5 @@
 % Menu to make using this emulator more pleasant
 
-:- dynamic rule/5, init_tapes/2, init_tapes/1.
 :- [ 'lib/utils.pl',
      'lib/turing_base.pl',
      'lib/turing_run.pl',
@@ -11,7 +10,7 @@ go :- go(user_input, user_output, user_error).
 go(Input, Output, _) :-
     format(Output, "Starting.~n", []),
     get_data(Input, Output),!,
-    step.
+    once(step).
 
 
 get_data(Input, Output) :-

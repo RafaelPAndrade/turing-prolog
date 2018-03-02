@@ -3,7 +3,7 @@
 
 % runnning the emulation full speed
 run :-
-    init_tapes(TLI, TRI), run(TLI, TRI).
+    tapes_initial_state(TLI, TRI), run(TLI, TRI).
 
 run(TLI, TRI) :-
     run(TLI, TRI, TLO, TRO),
