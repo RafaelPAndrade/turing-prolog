@@ -43,11 +43,11 @@ show_right_tape(TapeRight) :-
 show_machine_state(N, StateP, StateQ, TLQ, TRQ) :-
     show_machine_state(N, StateP, StateQ, '-', '-', '-', TLQ, TRQ).
 
-show_machine_state(N, StateP, StateQ, Ins, Outs, Head_Mov, TLQ, TRQ) :-
+show_machine_state(N, StateP, StateQ, Ins, Outs, Head_Movs, TLQ, TRQ) :-
     format("Transition Number:~24+~d~n", [N]),
     format("State transition:~24+~w~8+ ---> ~w~n", [StateP, StateQ]),
     format("Head read/write:~24+~w~8+ ---> ~w~n", [Ins, Outs]),
-    format("Head movement:~38+~w~n", Head_Mov),
+    format("Head movement:~38+~w~n", [Head_Movs]),
     show_tapes(TLQ, TRQ).
 
 
