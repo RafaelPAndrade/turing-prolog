@@ -12,7 +12,7 @@ What?
 This is an attempt to emulate Turing Machines, using Prolog (only tested
 with swipl...), in a extensible, terminal-friendly way.
 
-Currently, it emulates a multi-tape, unidirectional and deterministic
+Currently, it emulates a multi-tape, bidirectional and deterministic
 Turing Machine, with S-transitions.
 
 

@@ -7,14 +7,15 @@
 % Transfers elements from the 2 sides of the tape,
 % according to the asked movimentation
 tape_movimentation(l, [H | TapeL1], TapeR0, TapeL1, [H | TapeR0]).
+tape_movimentation(l, [], TapeR0, [], [null | TapeR0]).
 tape_movimentation(r, TapeL0, [H | TapeR1], [H | TapeL0], TapeR1).
 tape_movimentation(s, TapeL0, TapeR0, TapeL0, TapeR0).
 
 % tape_head/3
 % Gets the head and tail of the given tape. Previously done in run and
 % step directly, now a new predicate because tapes_heads/3.
-tape_head([],    null, []).
 tape_head([H|T], H,    T).
+tape_head([],    null, []).
 
 % showing things
 % Show tapes
@@ -23,25 +24,21 @@ show_tapes(TapesLeft, TapesRight) :-
     numlist(1, X, Ns),
     maplist(show_tape, TapesLeft, TapesRight, Ns).
 
-show_tape(TapeLeft, TapeRight) :-
-    format("Tape:~n"),
-    show_left_tape(TapeLeft), show_right_tape(TapeRight).
-
 show_tape(TapeLeft, TapeRight, N) :-
-    format("Tape ~d:~n", [N]),
-    show_left_tape(TapeLeft), show_right_tape(TapeRight).
+    join_tape_parts(TapeLeft, TapeRight, Tape),
+    format("Tape ~d: ~w~n", [N, Tape]).
 
-show_left_tape(TapeLeft) :-
-    reverse(TapeLeft, X),
-    format("Left tape: ~w~n", [X]).
-
-show_right_tape(TapeRight) :-
-    format("Right tape: ~w~n", [TapeRight]).
-
+% join_tape_parts/3
+% Used for joining the left and right parts of the tape, to show the user
+% a more normal view of the tape (instead of the left/right divide).
+join_tape_parts(TL0,[],T) :- join_tape_parts(TL0,[null], T).
+join_tape_parts(TL0,[H|TR],T) :-
+    reverse(TL0,TL),
+    append(TL,[[H]|TR],T).
 
 % Show state
 show_machine_state(N, StateP, StateQ, TLQ, TRQ) :-
-    show_machine_state(N, StateP, StateQ, '-', '-', '-', TLQ, TRQ).
+    show_machine_state(N, StateP, StateQ, ['-'], ['-'], ['-'], TLQ, TRQ).
 
 show_machine_state(N, StateP, StateQ, Ins, Outs, Head_Movs, TLQ, TRQ) :-
     format("Transition Number:~24+~d~n", [N]),
