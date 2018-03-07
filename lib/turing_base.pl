@@ -13,8 +13,8 @@ tape_movimentation(s, TapeL0, TapeR0, TapeL0, TapeR0).
 % tape_head/3
 % Gets the head and tail of the given tape. Previously done in run and
 % step directly, now a new predicate because tapes_heads/3.
-tape_head([],    null, []).
 tape_head([H|T], H,    T).
+tape_head([],    null, []).
 
 % showing things
 % Show tapes
